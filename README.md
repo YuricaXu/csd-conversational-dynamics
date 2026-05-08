@@ -143,15 +143,3 @@ Data sources and licenses: see [`data_sources.txt`](data_sources.txt).
 
 ---
 
-## Citation
-
-> Xu, F. (2026). *Critical Slowing Down for Conversational State Dynamics:
-> Detecting Regime Shifts in Dialogue Trajectories.*
-> Data and Communication final report, Spring 2026.
-
----
-
-## About
-
-**Fangyuan (Yurica) Xu** — MS Data Science, Fordham University · 2026
-Background: dynamical systems · NLP · AI welfare research · co-founder, GCI
