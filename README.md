@@ -26,7 +26,6 @@ current single-turn evaluation methods miss.
 
 ## Why this matters for AI alignment
 
-
 Most evaluation of multi-turn LLM behavior today is either single-point (one
 prompt, one judgment) or aggregate (averaging over N independent samples).
 Almost no method treats the conversation as a *dynamical system with a
@@ -109,7 +108,6 @@ extensions in scope:
 
 ## Repository layout
 
-
 ```
 .
 ├── code/
@@ -125,12 +123,9 @@ extensions in scope:
 └── README.md
 ```
 
-
-
 ---
 
 ## Reproducibility
-
 
 ```bash
 # Setup
@@ -147,15 +142,11 @@ python build_fig4_what_behind_the_words.py # Scene-9 case study (the lead figure
 # Outputs land in ../../figures/
 ```
 
-
-
 Or walk through the analysis interactively:
-
 
 ```bash
 jupyter notebook notebooks/
 ```
-
 
 Three notebooks split the work into focused components:
 
@@ -164,5 +155,3 @@ Three notebooks split the work into focused components:
 3. `03_case_study_scene9.ipynb` — Scene-9 deep-dive, generate Fig 4
 
 Data sources and licenses: see [`data_sources.txt`](data_sources.txt).
-
----
