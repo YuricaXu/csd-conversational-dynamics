@@ -1,0 +1,54 @@
+DATA SOURCES — Emotional Tipping Points in Multi-Party Dialogue
+================================================================
+
+The project synthesises two independent data sources. Both are publicly
+available and bundled in the data/ directory of this repository for
+reproducibility.
+
+
+1. Emory NLP Friends Emotion Detection Corpus
+-----------------------------------------------
+Citation:  Zahiri, S. and Choi, J. D. (2018). Emotion Detection on TV Show
+           Transcripts with Sequence-Based Convolutional Neural Networks.
+           Proc. AAAI Workshops on Affective Content Analysis.
+
+URL:       https://github.com/emorynlp/emotion-detection
+License:   MIT (see upstream repository)
+
+Files in this repo:
+    data/emotion-detection-trn.json   (4.0 MB, 77 episodes)
+    data/emotion-detection-dev.json   (550 KB, 11 episodes)
+    data/emotion-detection-tst.json   (543 KB,  9 episodes)
+
+Scope:     97 episodes of Friends (Seasons 1-4), 12,606 utterances total.
+           Each utterance carries one of seven emotion labels:
+           Joyful / Peaceful / Powerful / Neutral / Scared / Sad / Mad,
+           plus speaker, episode, scene, and utterance ID.
+
+Use:       Detection runs on lexicon-projected continuous affect; the
+           categorical labels are reserved for post-hoc validation only
+           and are never seen by the detector.
+
+
+2. NRC Valence–Arousal–Dominance Lexicon v2.1
+----------------------------------------------
+Citation:  Mohammad, S. M. (2018). Obtaining Reliable Human Ratings of
+           Valence, Arousal, and Dominance for 20,000 English Words.
+           Proc. ACL.
+
+URL:       https://saifmohammad.com/WebPages/nrc-vad.html
+License:   Free for research and commercial use (see lexicon README).
+           Redistribution requires citation.
+
+Files in this repo:
+    data/NRC-VAD-Lexicon-v2.1.txt     (1.5 MB)
+
+Scope:     ~55,000 entries (44,728 unigrams + 10,071 bigram MWEs),
+           each scored continuously on Valence, Arousal, Dominance
+           in [-1, +1].
+
+Use:       Projects each utterance's tokens into a continuous (V, A, D)
+           triplet via multi-word-expression-first greedy matching
+           (bigrams attempted before unigram fallback), then collapses
+           to the directional Signed Emotional Potential
+                SEP_t = V_t + 0.5 * D_t.
