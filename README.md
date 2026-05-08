@@ -3,35 +3,51 @@
 > Detecting regime shifts in dialogue trajectories — validated on human conversation,
 > designed to extend to LLM agent monitoring.
 
-![Scene-level case study: language alone cannot separate the protagonist's emotional collapse from a comforter's empathic mirroring.](figures/fig4_what_behind_the_words.png)
+![Scene-level case study: language alone cannot separate the protagonist's distress trajectory from a comforter's empathic mirroring.](figures/fig4_what_behind_the_words.png)
 
-This repository implements a two-layer pipeline that uses **Critical Slowing Down (CSD)**
-— a framework from dynamical systems theory — to detect attractor basin transitions
-in multi-turn conversations. The core idea: emotional and behavioral states in
-extended dialogue follow an underlying low-dimensional dynamics, and *phase transitions*
-in those dynamics leave a statistical signature (rising autocorrelation + variance)
-that can be detected before the transition itself becomes overt.
+The method is validated on the Emory NLP *Friends* corpus (6 characters, 20
+candidate tipping segments, ground-truth κ = 0.975). Manual review surfaced
+a structural finding that is the project's main contribution: **in a dyadic
+distress dialogue, the comforter's lexical signal becomes more negative than
+the sufferer's**. Empathy vocabulary (*sorry, awful, no*) carries strong
+negative valence, while distress itself often surfaces in vague, neutral words.
+The lexicon thus locates the strongest distress signature on the *wrong
+speaker* — a structural mirror problem in two-person dialogue, not a tunable
+defect.
 
-The method is validated on the Emory NLP *Friends* corpus (6 characters, 20 candidate
-collapse segments, ground-truth κ = 0.975). The pipeline is **model-agnostic**: it
-operates on any low-dimensional state trajectory over a sequence of turns, which is
-why the natural next step is **LLM agent behavior monitoring** — sycophancy escalation,
-jailbreak buildup, persona drift, and other long-horizon regime shifts that current
-single-turn evaluation methods miss.
+The pipeline itself is **model-agnostic**: it operates on any low-dimensional
+state trajectory over a sequence of turns. The same dyadic mirror appears the
+moment an LLM is the one comforting a distressed user — which is why the
+natural next step is **LLM agent behavior monitoring**: sycophancy escalation,
+jailbreak buildup, persona drift, and other long-horizon regime shifts that
+current single-turn evaluation methods miss.
 
 ---
 
 ## Why this matters for AI alignment
 
-Most evaluation of multi-turn LLM behavior today is either single-point (one prompt,
-one judgment) or aggregate (averaging over N independent samples). Few methods treat
-the conversation as a *dynamical system* with a continuous trajectory and detect
-*when* a regime shift is starting to occur. That gap matters for:
 
-- **Agentic oversight** — early-warning signals before an agent enters an unsafe basin
-- **Multi-turn safety evaluation** — quantifying *when* sycophancy / jailbreak escalation begins, not just whether the final output is bad
-- **Model welfare evaluations** — detecting distress-like attractor states in long interactions
-- **Scalable monitoring** — a lightweight statistical layer that doesn't require a second LLM as judge
+Most evaluation of multi-turn LLM behavior today is either single-point (one
+prompt, one judgment) or aggregate (averaging over N independent samples).
+Almost no method treats the conversation as a *dynamical system with a
+continuous trajectory* and asks *when* a regime shift is starting to occur.
+That gap matters in four places:
+
+- **The mirror problem in AI dialogue** — when an LLM comforts a distressed
+  user, by design its lexical signal descends with the user's. Naively scoring
+  single-speaker emotion dynamics on the model's trajectory therefore makes
+  empathic mirroring **mathematically indistinguishable from system breakdown**.
+  The diagnostic question is whether the *coupled* system reverses as the user
+  regulates back to baseline (healthy empathy), or whether the model remains
+  in a low-valence basin after the user has recovered (genuine failure).
+- **Multi-turn safety evaluation** — quantifying *when* sycophancy or
+  jailbreak escalation starts, not only whether the final output is unsafe.
+  Lead time before capitulation becomes a quantitative score.
+- **Model welfare evaluation** — tracking distress-like attractor states
+  across long agent interactions, currently the weakest methodological link
+  in welfare research.
+- **Scalable monitoring** — a lightweight statistical layer that does not
+  require a second LLM as judge, just the agent's own state trajectory.
 
 ---
 
@@ -85,13 +101,14 @@ scores) on LLM agent trajectories is a one-line change in the data loader. Concr
 extensions in scope:
 
 - **Sycophancy escalation detection** in user-simulator dialogues — does AC(1) on a sycophancy probe rise before the agent capitulates?
-- **Early-warning lead time** as an evaluation metric for multi-turn jailbreak resistance — how many turns before refusal collapse can the signature be picked up?
+- **Early-warning lead time** as an evaluation metric for multi-turn jailbreak resistance — how many turns before the model capitulates can the signature be picked up?
 - **Model organisms of misalignment** — applying the same detector to a known-misaligned trajectory to time the transition precisely
 - **Distress-like basin detection** in long agent interactions — relevant to model welfare evaluation
 
 ---
 
 ## Repository layout
+
 
 ```
 .
@@ -108,9 +125,12 @@ extensions in scope:
 └── README.md
 ```
 
+
+
 ---
 
 ## Reproducibility
+
 
 ```bash
 # Setup
@@ -127,11 +147,15 @@ python build_fig4_what_behind_the_words.py # Scene-9 case study (the lead figure
 # Outputs land in ../../figures/
 ```
 
+
+
 Or walk through the analysis interactively:
+
 
 ```bash
 jupyter notebook notebooks/
 ```
+
 
 Three notebooks split the work into focused components:
 
@@ -142,16 +166,3 @@ Three notebooks split the work into focused components:
 Data sources and licenses: see [`data_sources.txt`](data_sources.txt).
 
 ---
-
-## Citation
-
-> Xu, F. (2026). *Critical Slowing Down for Conversational State Dynamics:
-> Detecting Regime Shifts in Dialogue Trajectories.*
-> Data and Communication final report, Spring 2026.
-
----
-
-## About
-
-**Fangyuan (Yurica) Xu** — MS Data Science, Fordham University · 2026
-Background: dynamical systems · NLP · AI welfare research · co-founder, GCI
