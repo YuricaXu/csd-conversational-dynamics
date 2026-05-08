@@ -3,10 +3,10 @@
 > Detecting regime shifts in dialogue trajectories — validated on human conversation,
 > designed to extend to LLM agent monitoring.
 
-![Scene-level case study: language alone cannot separate the protagonist's emotional collapse from a comforter's empathic mirroring.](figures/fig4_what_behind_the_words.png)
+![Scene-level case study: language alone cannot separate the protagonist's distress trajectory from a comforter's empathic mirroring.](figures/fig4_what_behind_the_words.png)
 
 The method is validated on the Emory NLP *Friends* corpus (6 characters, 20
-candidate collapse segments, ground-truth κ = 0.975). Manual review surfaced
+candidate tipping segments, ground-truth κ = 0.975). Manual review surfaced
 a structural finding that is the project's main contribution: **in a dyadic
 distress dialogue, the comforter's lexical signal becomes more negative than
 the sufferer's**. Empathy vocabulary (*sorry, awful, no*) carries strong
@@ -101,61 +101,11 @@ scores) on LLM agent trajectories is a one-line change in the data loader. Concr
 extensions in scope:
 
 - **Sycophancy escalation detection** in user-simulator dialogues — does AC(1) on a sycophancy probe rise before the agent capitulates?
-- **Early-warning lead time** as an evaluation metric for multi-turn jailbreak resistance — how many turns before refusal collapse can the signature be picked up?
+- **Early-warning lead time** as an evaluation metric for multi-turn jailbreak resistance — how many turns before the model capitulates can the signature be picked up?
 - **Model organisms of misalignment** — applying the same detector to a known-misaligned trajectory to time the transition precisely
 - **Distress-like basin detection** in long agent interactions — relevant to model welfare evaluation
 
 ---
 
 ## Repository layout
-
-```
-.
-├── code/
-│   ├── model/        Engine — data loading, VAD scoring, two-layer detector
-│   └── figures/      4 figure builders (one per figure in the report)
-├── notebooks/        3 Jupyter notebooks walking through the analysis
-├── data/             Raw data (Emory NLP corpus + NRC VAD lexicon)
-├── final_database/   Exported per-utterance VAD scores
-├── figures/          Generated PNGs (Fig 1–4)
-├── METHOD.md         Full method specification
-├── data_sources.txt  Data sources with citations
-├── requirements.txt
-└── README.md
-```
-
----
-
-## Reproducibility
-
-```bash
-# Setup
-git clone https://github.com/YuricaXu/csd-conversational-dynamics.git
-cd csd-conversational-dynamics
-pip install -r requirements.txt
-
-# Reproduce all four figures
-cd code/figures
-python build_fig1_joey_annotated.py        # Joey full-season trajectory + CSD signature
-python build_fig2_precision_audit.py       # 30% precision, six failure modes
-python build_fig3_potential_curves.py      # Per-character potential landscapes
-python build_fig4_what_behind_the_words.py # Scene-9 case study (the lead figure)
-# Outputs land in ../../figures/
-```
-
-Or walk through the analysis interactively:
-
-```bash
-jupyter notebook notebooks/
-```
-
-Three notebooks split the work into focused components:
-
-1. `01_data_and_vad.ipynb` — load *Friends* data, score with NRC VAD
-2. `02_csd_detection_and_validation.ipynb` — run the detector, validate, generate Figs 1–3
-3. `03_case_study_scene9.ipynb` — Scene-9 deep-dive, generate Fig 4
-
-Data sources and licenses: see [`data_sources.txt`](data_sources.txt).
-
----
 
